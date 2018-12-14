@@ -24,7 +24,12 @@ module.exports = async ({ apiURL, contentType, jwtToken }) => {
   console.timeEnd('Fetch Strapi data')
 
   // Map and clean data.
-  return documents.data.map(item => clean(item))
+  return documents.data.map(item => {
+    // Fix issue https://github.com/strapi/gatsby-source-strapi/issues/6
+    item.id = item.id.toString()
+
+    return clean(item)
+  })
 }
 
 /**
